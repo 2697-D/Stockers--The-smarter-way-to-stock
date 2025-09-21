@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { BackgroundBeams } from '@/components/ui/background-beams';
 import { 
   Twitter, 
   Linkedin, 
@@ -81,8 +82,10 @@ const StalkUsSection = () => {
   };
 
   return (
-    <section id="stalk-us" className="min-h-screen flex items-center py-20 px-4">
-      <div className="max-w-7xl mx-auto w-full">
+  <section id="stalk-us" className="min-h-screen h-full flex items-center py-20 px-4 relative overflow-hidden">
+      {/* Animated beams background for this section only */}
+  <BackgroundBeams className="absolute inset-0 w-full h-full min-h-full z-0 pointer-events-none" />
+      <div className="max-w-7xl mx-auto w-full relative z-10">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -193,7 +196,7 @@ const StalkUsSection = () => {
                   whileHover={{ scale: 1.02 }}
                   className="group"
                 >
-                  <Card className="glass-morphic hover-lift border-0">
+                  <Card className="glass-morphic border-0 transition-all duration-300">
                     <CardContent className="p-6">
                       <div className="flex items-start space-x-4">
                         <motion.div
@@ -234,32 +237,7 @@ const StalkUsSection = () => {
             </div>
 
             {/* Newsletter Signup */}
-            <motion.div
-              variants={itemVariants}
-              className="mt-12"
-            >
-              <Card className="glass-morphic border-0 bg-gradient-to-br from-primary/10 to-accent/5">
-                <CardContent className="p-8 text-center">
-                  <motion.div
-                    animate={{ y: [0, -5, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                    className="text-3xl mb-4"
-                  >
-                    📧
-                  </motion.div>
-                  <h4 className="text-xl font-bold mb-3 text-foreground">
-                    Stay Updated
-                  </h4>
-                  <p className="text-muted-foreground mb-6">
-                    Subscribe to our newsletter for weekly market insights, 
-                    exclusive tips, and early access to new courses.
-                  </p>
-                  <Button className="w-full bg-primary hover:bg-primary/90 hover-lift">
-                    Subscribe to Newsletter
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
+            
           </motion.div>
         </motion.div>
       </div>

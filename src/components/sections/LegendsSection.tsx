@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
+import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards';
 import { Trophy, TrendingUp, Target, Zap } from 'lucide-react';
 
 const LegendsSection = () => {
@@ -39,6 +40,79 @@ const LegendsSection = () => {
       stats: { roi: '320%', time: '14 months', badge: 'Sector Pro' },
       icon: TrendingUp,
       color: 'from-green-500/20 to-primary/20'
+    },
+    // More random cards
+    {
+      name: 'Priya Singh',
+      achievement: 'Swing Trade Star',
+      description: 'Generated consistent returns with disciplined swing trading and technical analysis.',
+      image: '/placeholder.svg',
+      stats: { roi: '150%', time: '10 months', badge: 'Swing Star' },
+      icon: Trophy,
+      color: 'from-pink-500/20 to-yellow-500/20'
+    },
+    {
+      name: 'Alex Johnson',
+      achievement: 'ETF Innovator',
+      description: 'Built a diversified ETF portfolio that outperformed the S&P 500.',
+      image: '/placeholder.svg',
+      stats: { roi: '110%', time: '1.5 years', badge: 'ETF Pro' },
+      icon: TrendingUp,
+      color: 'from-blue-400/20 to-green-400/20'
+    },
+    {
+      name: 'Fatima Noor',
+      achievement: 'Dividend Dynamo',
+      description: 'Created a passive income stream through high-yield dividend stocks.',
+      image: '/placeholder.svg',
+      stats: { roi: '95%', time: '2 years', badge: 'Dividend Dynamo' },
+      icon: Target,
+      color: 'from-purple-500/20 to-pink-500/20'
+    },
+    {
+      name: 'Liam O’Connor',
+      achievement: 'Crypto Visionary',
+      description: 'Early adopter of blockchain, achieved exponential growth in crypto assets.',
+      image: '/placeholder.svg',
+      stats: { roi: '400%', time: '3 years', badge: 'Crypto Visionary' },
+      icon: Zap,
+      color: 'from-yellow-400/20 to-blue-500/20'
+    },
+    {
+      name: 'Sofia Rossi',
+      achievement: 'Momentum Master',
+      description: 'Specialized in momentum trading, capturing trends for maximum gains.',
+      image: '/placeholder.svg',
+      stats: { roi: '210%', time: '9 months', badge: 'Momentum Master' },
+      icon: Trophy,
+      color: 'from-red-400/20 to-orange-400/20'
+    },
+    {
+      name: 'Chen Wei',
+      achievement: 'Value Investor',
+      description: 'Identified undervalued stocks and held for long-term growth.',
+      image: '/placeholder.svg',
+      stats: { roi: '175%', time: '2 years', badge: 'Value Investor' },
+      icon: Target,
+      color: 'from-green-400/20 to-blue-400/20'
+    },
+    {
+      name: 'Maya Patel',
+      achievement: 'Options Strategist',
+      description: 'Mastered complex options strategies for risk-managed profits.',
+      image: '/placeholder.svg',
+      stats: { roi: '220%', time: '1 year', badge: 'Options Pro' },
+      icon: Zap,
+      color: 'from-purple-400/20 to-yellow-400/20'
+    },
+    {
+      name: 'Lucas Müller',
+      achievement: 'Growth Stock Guru',
+      description: 'Focused on high-growth tech stocks for rapid portfolio expansion.',
+      image: '/placeholder.svg',
+      stats: { roi: '300%', time: '15 months', badge: 'Growth Guru' },
+      icon: TrendingUp,
+      color: 'from-blue-500/20 to-green-500/20'
     }
   ];
 
@@ -64,7 +138,7 @@ const LegendsSection = () => {
   };
 
   return (
-    <section id="legends" className="min-h-screen flex items-center py-20 px-4">
+    <section id="legends" className="min-h-screen py-20 px-4">
       <div className="max-w-7xl mx-auto w-full">
         {/* Section Header */}
         <motion.div
@@ -90,95 +164,20 @@ const LegendsSection = () => {
           </p>
         </motion.div>
 
-        {/* Legends Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
-        >
-          {legends.map((legend, index) => (
-            <motion.div
-              key={legend.name}
-              variants={cardVariants}
-              whileHover={{ 
-                y: -12,
-                rotateY: 5,
-                transition: { duration: 0.3 }
-              }}
-              className="group relative"
-            >
-              <Card className="glass-morphic hover-lift h-full border-0 relative overflow-hidden">
-                {/* Background gradient */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${legend.color} opacity-40`} />
-                
-                {/* Achievement Badge */}
-                <div className="absolute top-4 right-4 z-20">
-                  <motion.div
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center"
-                  >
-                    <legend.icon size={16} className="text-primary" />
-                  </motion.div>
-                </div>
-
-                <CardContent className="p-6 relative z-10 h-full flex flex-col">
-                  {/* Profile Image */}
-                  <div className="relative mb-4">
-                    <div className="w-20 h-20 mx-auto bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center mb-3">
-                      <div className="w-16 h-16 bg-background/20 rounded-full flex items-center justify-center text-2xl font-bold text-primary">
-                        {legend.name.charAt(0)}
-                      </div>
-                    </div>
-                    
-                    {/* Animated ring */}
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                      className="absolute inset-0 w-20 h-20 mx-auto border-2 border-primary/30 border-t-primary rounded-full"
-                    />
-                  </div>
-
-                  {/* Name and Achievement */}
-                  <div className="text-center mb-4">
-                    <h3 className="font-bold text-lg text-foreground mb-1">
-                      {legend.name}
-                    </h3>
-                    <p className="text-sm text-primary font-medium">
-                      {legend.achievement}
-                    </p>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-xs text-muted-foreground text-center mb-4 flex-grow">
-                    {legend.description}
-                  </p>
-
-                  {/* Stats */}
-                  <div className="space-y-2 pt-4 border-t border-border/20">
-                    <div className="flex justify-between items-center text-xs">
-                      <span className="text-muted-foreground">ROI:</span>
-                      <span className="font-semibold text-primary">{legend.stats.roi}</span>
-                    </div>
-                    <div className="flex justify-between items-center text-xs">
-                      <span className="text-muted-foreground">Timeframe:</span>
-                      <span className="font-medium text-foreground/80">{legend.stats.time}</span>
-                    </div>
-                    <div className="flex justify-center mt-3">
-                      <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-                        {legend.stats.badge}
-                      </span>
-                    </div>
-                  </div>
-                </CardContent>
-
-                {/* Subtle glow effect */}
-                <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg" />
-              </Card>
-            </motion.div>
-          ))}
-        </motion.div>
+        {/* Legends Infinite Moving Cards */}
+        <div className="legend-moving-cards-wrapper">
+          <InfiniteMovingCards
+            items={legends.map((legend) => ({
+              quote: legend.description,
+              name: legend.name,
+              title: legend.achievement + ' | ROI: ' + legend.stats.roi + ' | ' + legend.stats.badge,
+              image: legend.image
+            }))}
+            direction="left"
+            speed="slow"
+            className="legend-moving-cards"
+          />
+        </div>
 
         {/* Bottom CTA */}
         <motion.div
