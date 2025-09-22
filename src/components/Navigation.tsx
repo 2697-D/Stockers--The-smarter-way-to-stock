@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../Logo.png';
+import TockersLogo from '../Tockers-2.png';
 import { motion } from 'framer-motion';
 import { Moon, Sun, LogIn, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -80,7 +81,7 @@ const Navigation = ({ isDark, toggleTheme }: NavigationProps) => {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`text-sm font-medium transition-all duration-300 relative whitespace-nowrap ${
+                  className={`text-base font-semibold transition-all duration-300 relative whitespace-nowrap ${
                     activeSection === item.id
                       ? 'text-primary'
                       : 'text-foreground/70 hover:text-primary'
@@ -98,12 +99,23 @@ const Navigation = ({ isDark, toggleTheme }: NavigationProps) => {
               );
             })}
           </div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="absolute left-1/2 -translate-x-1/2"
+          <div
+            className="absolute left-1/2 -translate-x-1/2 group cursor-pointer"
+            onClick={() => {
+              const hero = document.getElementById('hero');
+              if (hero) {
+                hero.scrollIntoView({ behavior: 'smooth' });
+              } else {
+                window.location.href = '/';
+              }
+            }}
           >
-            <img src={Logo} alt="Stockers Logo" className="h-10 w-auto" />
-          </motion.div>
+            <img
+              src={isDark ? TockersLogo : Logo}
+              alt="Stockers Logo"
+              className={(isDark ? "h-[230px] w-auto" : "h-10 w-auto") + " transition-transform duration-300 group-hover:scale-110"}
+            />
+          </div>
           <div className="flex items-center ml-auto gap-4">
             <Button
               variant="ghost"

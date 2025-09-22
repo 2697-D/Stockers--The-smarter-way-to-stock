@@ -18,7 +18,12 @@ const LoginPage = () => {
     setError('');
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/user-type-selection');
+      const params = new URLSearchParams(window.location.search);
+      if (!params.get('direct')) {
+        navigate('/user-type-selection');
+      } else {
+        navigate('/');
+      }
     } catch (err: any) {
       setError('Failed to log in. Please check your email and password.');
       console.error(err);
@@ -29,7 +34,12 @@ const LoginPage = () => {
     setError('');
     try {
       await signInWithPopup(auth, googleProvider);
-      navigate('/user-type-selection');
+      const params = new URLSearchParams(window.location.search);
+      if (!params.get('direct')) {
+        navigate('/user-type-selection');
+      } else {
+        navigate('/');
+      }
     } catch (err: any) {
       setError('Failed to sign in with Google.');
       console.error(err);

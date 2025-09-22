@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Aurora from '../Aurora';
+import { useTheme } from '../ThemeProvider';
 import GradientText from '../GradientText';
 import { motion } from 'framer-motion';
 
@@ -13,6 +14,24 @@ const HeroSection = () => {
     }
   };
 
+  const { theme } = useTheme();
+
+  // Lighter aurora for light theme
+  const auroraProps = theme === 'light'
+    ? {
+        colorStops: [
+          '#5eeaff', // pastel cyan
+          '#ffe066', // pastel yellow-orange
+          '#ff99e6', // pastel magenta
+          '#66ffb3', // pastel green
+          '#fff566', // pastel yellow
+          '#ff6666'  // pastel red
+        ],
+        amplitude: 0.36,
+        blend: 0.52
+      }
+    : {};
+
   return (
     <section
       id="hero"
@@ -20,7 +39,7 @@ const HeroSection = () => {
     >
       {/* Aurora animated background */}
       <div className="absolute inset-0 z-0">
-        <Aurora />
+        <Aurora {...auroraProps} />
       </div>
 
   <div className="relative z-10 text-center px-4 max-w-4xl mx-auto mt-40">

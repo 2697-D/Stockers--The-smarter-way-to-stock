@@ -1,5 +1,5 @@
 .legend-moving-cards {
-  --animation-duration: 1800s !important;
+  --animation-duration: 200s !important;
   --animation-timing-function: linear;
 }
 .animate-scroll {
