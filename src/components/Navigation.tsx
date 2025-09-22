@@ -1,8 +1,21 @@
 import { useState } from 'react';
-import Logo from '@/Logo.png';
+import { useNavigate } from 'react-router-dom';
+import Logo from '../Logo.png';
 import { motion } from 'framer-motion';
-import { Moon, Sun, LogIn } from 'lucide-react';
+import { Moon, Sun, LogIn, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '../contexts/AuthContext';
+import { auth } from '../firebase';
+import { signOut } from 'firebase/auth';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface NavigationProps {
   isDark: boolean;
@@ -11,6 +24,8 @@ interface NavigationProps {
 
 const Navigation = ({ isDark, toggleTheme }: NavigationProps) => {
   const [activeSection, setActiveSection] = useState('hero');
+  const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
   const navItems = [
     { id: 'hero', label: 'Front page' },
@@ -29,8 +44,16 @@ const Navigation = ({ isDark, toggleTheme }: NavigationProps) => {
   };
 
   const handleLogin = () => {
-    // This will be implemented when Supabase is connected
-    console.log('Login clicked - Supabase integration needed');
+    navigate('/login');
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/');
+    } catch (error) {
+      console.error("Failed to log out", error);
+    }
   };
 
   return (
@@ -38,19 +61,17 @@ const Navigation = ({ isDark, toggleTheme }: NavigationProps) => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6 }}
-  className="fixed top-4 left-0 z-50 w-[calc(100%-4rem)] mx-8"
+      className="fixed top-4 left-0 z-50 w-[calc(100%-4rem)] mx-8"
     >
-  <div
-    className="glass-morphic rounded-2xl pl-0 pr-6 py-4 relative overflow-hidden"
-    style={!isDark ? { background: '#D8DEE9' } : {}}
-  >
-        {/* Subtle shimmer effect */}
+      <div
+        className="glass-morphic rounded-2xl pl-0 pr-6 py-4 relative overflow-hidden"
+        style={!isDark ? { background: '#D8DEE9' } : {}}
+      >
         <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent animate-shimmer" />
         </div>
-        
-  <div className="flex items-center relative z-10 w-full h-16">
-          {/* Only the desired nav links, left-aligned */}
+
+        <div className="flex items-center relative z-10 w-full h-16">
           <div className="flex items-center gap-6 justify-start w-full pl-8">
             {['what-we-do', 'how-you-learn', 'legends', 'stalk-us'].map((id) => {
               const item = navItems.find((nav) => nav.id === id);
@@ -79,30 +100,52 @@ const Navigation = ({ isDark, toggleTheme }: NavigationProps) => {
           </div>
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="absolute left-[45%] inset-y-0 flex items-center -translate-x-1/2"
-            style={{ position: 'absolute', left: '45%', top: 0, bottom: 0, transform: 'translateX(-50%)' }}
+            className="absolute left-1/2 -translate-x-1/2"
           >
             <img src={Logo} alt="Stockers Logo" className="h-10 w-auto" />
           </motion.div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleTheme}
-            className="hover-lift ml-8"
-          >
-            {isDark ? (
-              <Sun className="h-5 w-5" />
+          <div className="flex items-center ml-auto gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              className="hover-lift"
+            >
+              {isDark ? (
+                <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
+              )}
+            </Button>
+            
+            {currentUser ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Avatar className="cursor-pointer hover-lift">
+                    <AvatarImage src={currentUser.photoURL || undefined} alt={currentUser.displayName || 'User'} />
+                    <AvatarFallback>{currentUser.displayName?.charAt(0).toUpperCase() || 'U'}</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>{currentUser.displayName || currentUser.email}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate('/user-type-selection')}>Dashboard</DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout} className="text-red-500">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
-              <Moon className="h-5 w-5" />
+              <Button
+                onClick={handleLogin}
+                className="bg-primary/90 hover:bg-primary text-primary-foreground hover-lift"
+              >
+                <LogIn className="h-4 w-4 mr-2" />
+                Login
+              </Button>
             )}
-          </Button>
-          <Button
-            onClick={handleLogin}
-            className="bg-primary/90 hover:bg-primary text-primary-foreground hover-lift ml-4"
-          >
-            <LogIn className="h-4 w-4 mr-2" />
-            Login
-          </Button>
+          </div>
         </div>
       </div>
     </motion.nav>
@@ -110,3 +153,4 @@ const Navigation = ({ isDark, toggleTheme }: NavigationProps) => {
 };
 
 export default Navigation;
+
